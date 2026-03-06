@@ -144,5 +144,5 @@ This project is licensed under the [MIT License](LICENSE).
 
 <p align="center">
   <strong>Built with ❤️ and SwiftUI</strong><br/>
-  <sub>Apple Swift Student Challenge 2025</sub>
+  <sub>Apple Swift Student Challenge 2026</sub>
 </p>
