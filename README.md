@@ -13,7 +13,7 @@
   <img src="https://img.shields.io/badge/Swift-5.9-F54A2A?style=flat-square&logo=swift&logoColor=white" />
   <img src="https://img.shields.io/badge/SwiftUI-Framework-007AFF?style=flat-square&logo=apple&logoColor=white" />
   <img src="https://img.shields.io/badge/Platform-iOS%2017+-000000?style=flat-square&logo=apple&logoColor=white" />
-  <img src="https://img.shields.io/badge/Apple%20Swift%20Student%20Challenge-2025-blueviolet?style=flat-square&logo=apple&logoColor=white" />
+  <img src="https://img.shields.io/badge/Apple%20Swift%20Student%20Challenge-2026-blueviolet?style=flat-square&logo=apple&logoColor=white" />
   <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" />
 </p>
 
