@@ -24,7 +24,7 @@
 
 **MindDose** is a medication tracking and mental wellness app that helps users stay on top of their prescriptions while providing tools for journaling, mood tracking, and crisis support — all in one beautifully crafted, privacy-first experience.
 
-Built entirely in **SwiftUI** as a submission for Apple's **2025 Swift Student Challenge**.
+Built entirely in **SwiftUI** as a submission for Apple's **2026 Swift Student Challenge**.
 
 ---
 
