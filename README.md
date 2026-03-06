@@ -17,9 +17,6 @@
   <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" />
 </p>
 
-<p align="center">
-  <img src="Assets/minddose-hero.png" alt="MindDose Hero Banner" width="100%" />
-</p>
 
 ---
 
