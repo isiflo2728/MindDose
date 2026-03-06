@@ -6,7 +6,7 @@
 <h1 align="center">MindDose</h1>
 
 <p align="center">
-  <strong>Your mental health companion — built with SwiftUI, designed with care.</strong>
+  <strong>Your mental health companion. Uuilt with SwiftUI, designed with care.</strong>
 </p>
 
 <p align="center">
@@ -22,7 +22,7 @@
 
 ## What is MindDose?
 
-**MindDose** is a medication tracking and mental wellness app that helps users stay on top of their prescriptions while providing tools for journaling, mood tracking, and crisis support — all in one beautifully crafted, privacy-first experience.
+**MindDose** is a medication tracking and mental wellness app that helps users stay on top of their prescriptions while providing tools for journaling, mood tracking, and crisis support, all in one beautifully crafted, privacy first experience.
 
 Built entirely in **SwiftUI** as a submission for Apple's **2026 Swift Student Challenge**.
 
@@ -34,19 +34,19 @@ Built entirely in **SwiftUI** as a submission for Apple's **2026 Swift Student C
 Schedule and log medications with smart reminders. Never miss a dose again.
 
 ### 📝 Journaling
-Free-form journaling to reflect on your day, track patterns, and process emotions.
+Free form journaling to reflect on your day, track patterns, and process emotions.
 
 ### 🎭 Mood Tracking
 Visual mood check-ins that map your emotional landscape over time.
 
 ### 📄 PDF Export
-Generate clean, shareable PDF reports of your medication history and journal entries — perfect for doctor visits.
+Generate clean, shareable PDF reports of your medication history and journal entries, perfect for doctor visits.
 
 ### 🫂 Support Contacts
 Keep your trusted circle one tap away. Quickly reach out to friends, family, or professionals when you need to.
 
 ### 🚨 Crisis Features
-Built-in crisis resources and quick-access support for moments when it matters most.
+Built in crisis resources and quick-access support for moments when it matters most.
 
 ---
 
