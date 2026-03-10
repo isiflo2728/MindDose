@@ -14,6 +14,7 @@ struct Medication: Identifiable, Codable, Hashable {
     var color: CodableColor
     var notes: String
     var startDate: Date
+    var reminderTime: Date?
     var takenDates: [Date]        // dates (startOfDay) when medication was taken
     
     var isLowStock: Bool {
@@ -104,6 +105,7 @@ class MedicationStore: ObservableObject {
         medications.append(med)
         save()
         scheduleLowStockNotifications()
+        scheduleReminder(for: med)
     }
     
     func update(_ med: Medication) {
@@ -111,10 +113,15 @@ class MedicationStore: ObservableObject {
             medications[index] = med
             save()
             scheduleLowStockNotifications()
+            scheduleReminder(for: med)
         }
     }
     
     func delete(_ med: Medication) {
+        let center = UNUserNotificationCenter.current()
+        center.removePendingNotificationRequests(
+            withIdentifiers: ["takereminder-\(med.id)", "lowstock-\(med.id)"]
+        )
         medications.removeAll { $0.id == med.id }
         save()
     }
@@ -161,6 +168,38 @@ class MedicationStore: ObservableObject {
     
     func requestNotificationPermission() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { _, _ in }
+    }
+    
+    func scheduleReminder(for med: Medication) {
+        let center = UNUserNotificationCenter.current()
+        
+        // Remove any existing reminder for this med
+        center.removePendingNotificationRequests(
+            withIdentifiers: ["takereminder-\(med.id)"]
+        )
+        
+        // Only schedule if there's a reminder time
+        guard let time = med.reminderTime else { return }
+        guard med.frequency != .asNeeded else { return }
+        
+        let content = UNMutableNotificationContent()
+        content.title = "Time for \(med.name)"
+        content.body = "\(med.dosage) · Tap to mark as taken"
+        content.sound = .default
+        
+        let components = Calendar.current.dateComponents(
+            [.hour, .minute], from: time
+        )
+        let trigger = UNCalendarNotificationTrigger(
+            dateMatching: components, repeats: true
+        )
+        
+        let request = UNNotificationRequest(
+            identifier: "takereminder-\(med.id)",
+            content: content,
+            trigger: trigger
+        )
+        center.add(request)
     }
     
     func scheduleLowStockNotifications() {
@@ -612,7 +651,7 @@ struct MedCalendarView: View {
 }
 
 // MARK: - Add Medication View
-
+// Need to modify this
 struct AddMedicationView: View {
     @ObservedObject var store: MedicationStore
     let accentColor: Color
@@ -627,7 +666,8 @@ struct AddMedicationView: View {
     @State private var selectedColorIndex = 0
     @State private var notes = ""
     @State private var startDate = Date.now
-    
+    @State private var selectedTime = Date.now
+ 
     var body: some View {
         NavigationStack {
             Form {
@@ -664,6 +704,7 @@ struct AddMedicationView: View {
                     Stepper("Doses per day: \(timesPerDay)", value: $timesPerDay, in: 1...10)
                     
                     DatePicker("Start Date", selection: $startDate, displayedComponents: .date)
+                    DatePicker("Add Time", selection: $selectedTime, displayedComponents: .hourAndMinute)
                 } header: {
                     Text("Schedule")
                 }
@@ -727,7 +768,9 @@ struct AddMedicationView: View {
             color: CodableColor.presets[selectedColorIndex].color,
             notes: notes,
             startDate: startDate,
+            reminderTime: selectedTime,
             takenDates: []
+
         )
     }
 }
@@ -736,6 +779,7 @@ struct AddMedicationView: View {
 
 struct MedicationListView: View {
     @ObservedObject var store: MedicationStore
+    @State private var showMeddicationView = false
     let accentColor: Color
     @Environment(\.dismiss) private var dismiss
     @State private var editingMedication: Medication? = nil
@@ -748,7 +792,7 @@ struct MedicationListView: View {
                         ContentUnavailableView(
                             "No Medications",
                             systemImage: "pills",
-                            description: Text("Tap + to add your first medication.")
+                            description: Text("Tap \"Add\" to add your first medication.")
                         )
                     } else {
                         // Fallback on earlier versions
@@ -782,9 +826,18 @@ struct MedicationListView: View {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Done") { dismiss() }
                 }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Add"){
+                        showMeddicationView = true
+                    }
+                }
             }
+            
             .sheet(item: $editingMedication) { med in
                 EditMedicationView(store: store, medication: med)
+            }
+            .sheet(isPresented: $showMeddicationView) {
+                AddMedicationView(store: store, accentColor: store.accentColor)
             }
         }
     }
