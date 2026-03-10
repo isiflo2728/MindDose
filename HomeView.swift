@@ -9,6 +9,7 @@ struct HomeView: View {
     @State private var now = Date.now
     @ObservedObject var journalStore: JournalStore
     @ObservedObject var contactStore: ContactStore
+    @StateObject private var pharmacyStore = PharmacyStore()
     
     enum Tab: String, CaseIterable {
         case home = "house.fill"
@@ -43,7 +44,7 @@ struct HomeView: View {
                     .tabItem{
                         Label("Journal", systemImage: "book")
                     }
-                ContactsView(contactStore: contactStore, medStore: store)
+                ContactsView(contactStore: contactStore, medStore: store, pharmacyStore: pharmacyStore)
                     .tag(Tab.Contacts)
                     .tabItem {
                         Label("Contacts", systemImage: "person.3.fill")
@@ -381,7 +382,9 @@ struct HomeView: View {
         .contentShape(Rectangle())
     }
     
+    
     // MARK: - Weekly Overview Card
+    
     
     private var weeklyOverviewCard: some View {
         let weekDays = getWeekDays()
